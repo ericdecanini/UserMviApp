@@ -13,7 +13,7 @@ class UsersApiService {
         .create(UsersApi::class.java)
 
     suspend fun loadUsers(): List<User> {
-        return api.loadUsers(10).results
+        return api.loadUserList(10).results
     }
 
 }

@@ -6,7 +6,7 @@ import retrofit2.http.Query
 interface UsersApi {
 
     @GET("api/")
-    suspend fun loadUsers(
+    suspend fun loadUserList(
         @Query("results") results: Int
     ): UserResponse
 
