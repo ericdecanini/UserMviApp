@@ -6,7 +6,7 @@ class UsersPresenter {
 
     private lateinit var view: UsersActivity
     private val scope = CoroutineScope(Job())
-    var currentState: UserState? = null
+    private var currentState: UserState? = null
 
     private val usersRepository = UsersRepository()
 
@@ -33,15 +33,8 @@ class UsersPresenter {
     }
 
     private fun reduce(previous: UserState?, new: List<User>): UserState {
-        if (previous != null && previous is UserState.DataState) {
-            val usersMutable = ArrayList(previous.data)
-            usersMutable.addAll(new)
-            this.currentState = UserState.DataState(usersMutable.toList())
-        } else {
-            this.currentState = UserState.DataState(new)
-        }
-
-        return this.currentState!!
+        val previousData = (previous as? UserState.DataState)?.data
+        val newData = previousData?.plus(new) ?: new
+        return UserState.DataState(newData).also { currentState = it }
     }
-
 }
